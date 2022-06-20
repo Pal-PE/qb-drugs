@@ -1,3 +1,5 @@
+local Skills = exports["pal-skills"]:GetCoreObject()
+
 QBCore.Functions.CreateCallback('qb-drugs:server:cornerselling:getAvailableDrugs', function(source, cb)
     local AvailableDrugs = {}
     local src = source
@@ -31,6 +33,8 @@ RegisterNetEvent('qb-drugs:server:sellCornerDrugs', function(item, amount, price
         if hasItem.amount >= amount then
             TriggerClientEvent('QBCore:Notify', src, Lang:t("success.offer_accepted"), 'success')
             Player.Functions.RemoveItem(item, amount)
+            Skills.SV.AddExp(source, "drugselling", 35)
+            price = price + (Skills.SV.GetLevel(source, "drugselling")*25)
             Player.Functions.AddMoney('cash', price, "sold-cornerdrugs")
             TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items[item], "remove")
             for i = 1, #Config.CornerSellingDrugsList, 1 do

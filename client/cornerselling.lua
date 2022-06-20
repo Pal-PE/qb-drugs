@@ -1,3 +1,5 @@
+local Skills = exports["pal-skills"]:GetCoreObject()
+
 local cornerselling = false
 local hasTarget = false
 local lastPed = {}
@@ -26,7 +28,7 @@ local function TooFarAway()
 end
 
 local function PoliceCall()
-    if Config.PoliceCallChance <= math.random(1, 100) then
+    if Config.PoliceCallChance <= math.random(1, 100) - Skills.CL.GetLevel("drugselling")*2 then
         TriggerServerEvent('police:server:policeAlert', 'Drug sale in progress')
     end
 end
